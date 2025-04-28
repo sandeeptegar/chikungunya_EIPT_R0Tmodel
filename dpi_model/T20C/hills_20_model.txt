@@ -1,0 +1,23 @@
+
+    model{
+    
+    ## Priors
+    vc ~ dbeta(1, 1)
+    k ~ dlnorm(2.61, 5)
+    d50 ~ dlnorm(2, 0.7)
+    sigma ~ dunif(0, 1000)
+    tau <- 1 / (sigma * sigma)
+    
+    ## Likelihood
+    for(i in 1:N.obs){
+    pi.mu[i] <- (vc * dpi[i]^k)/(d50^k + dpi[i]^k)
+    pi[i] ~ dnorm(pi.mu[i], tau)
+    }
+    
+    ## Derived Quantities and Predictions
+    for(i in 1:N.dpi.xs){
+    pi.mu.pred[i] <- (vc * dpi.xs[i]^k)/(d50^k + dpi.xs[i]^k)
+    }
+    
+    } # close model
+    

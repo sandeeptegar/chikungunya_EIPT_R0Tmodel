@@ -1,0 +1,22 @@
+
+    model{
+    
+    ## Priors
+    A ~ dunif(0, 100)
+    k ~ dgamma(1, 10)
+    sigma ~ dunif(0, 1000)
+    tau <- 1 / (sigma * sigma)
+    
+    ## Likelihood
+    for(i in 1:N.obs){
+    trait.mu[i] <- A*exp(-k * (temp[i]/(1 + (temp[i]/273))))
+    trait[i] ~ dnorm(trait.mu[i], tau)
+    }
+    
+    ## Derived Quantities and Predictions
+    for(i in 1:N.Temp.xs){
+    trait.mu.pred[i] <- A*exp(-k * (Temp.xs[i]/(1 + (Temp.xs[i]/273))))
+    }
+    
+    } # close model
+    

@@ -1,0 +1,23 @@
+
+    model{
+    
+    ## Priors
+    q ~ dgamma(1, 10)
+    T0 ~ dunif(0, 18)
+    Tm ~ dunif(30, 45)
+    sigma ~ dunif(0, 1000)
+    tau <- 1 / (sigma * sigma)
+    
+    ## Likelihood
+    for(i in 1:N.obs){
+    trait.mu[i] <- q * temp[i] * (temp[i] - T0) * sqrt((Tm - temp[i]) * (Tm > temp[i])) * (T0 < temp[i])
+    trait[i] ~ dnorm(trait.mu[i], tau)
+    }
+    
+    ## Derived Quantities and Predictions
+    for(i in 1:N.Temp.xs){
+    trait.mu.pred[i] <- q * Temp.xs[i] * (Temp.xs[i] - T0) * sqrt((Tm - Temp.xs[i]) * (Tm > Temp.xs[i])) * (T0 < Temp.xs[i])
+    }
+    
+    } # close model
+    
