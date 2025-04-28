@@ -29,7 +29,7 @@ We used two programming languages:
 
 ## 1. DPI Model (Example: T = 20°C)
 
-**Main Data File:**  
+**Main Data Files (see folder `data`):** 
 - `vc_chikv.csv` (main data file)
 - `T20.csv` (extracted from the main data file)
 
